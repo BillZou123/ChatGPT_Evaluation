@@ -73,10 +73,10 @@ class LeetcodeHandler():
         self.driver.get(url)
 
         #enable the topics
-        settings_button_id = self.driver.find_element(By.ID, "headlessui-popover-button-22")
-        settings_button_id.click()
-        topics_checkbox = settings_button_id.find_element(By.XPATH, "following-sibling::*[1]//*[1]//*[2]")
-        topics_checkbox.click()
+        # settings_button_id = self.driver.find_element(By.ID, "headlessui-popover-button-:r21i:")
+        # settings_button_id.click()
+        # topics_checkbox = settings_button_id.find_element(By.XPATH, "following-sibling::*[1]//*[1]//*[2]")
+        # topics_checkbox.click()
 
         soup = BeautifulSoup(self.driver.page_source, features="html.parser")
         table = soup.find("div", {"role": "table"})
@@ -96,7 +96,7 @@ class LeetcodeHandler():
                 locked = True if cells[1].find("svg") else False
                 acceptance = cells[3].find("span").text
                 difficulty = cells[4].find("span").text
-                topic_tags = [tag.text.lower() for tag in cells[1].find_all("span")]
+                # topic_tags = [tag.text.lower() for tag in cells[1].find_all("span")]
                 
                 # add to results
                 self.logger.debug("Adding problem problem to result...\n\ttitle: %s", title)
@@ -107,7 +107,7 @@ class LeetcodeHandler():
                     "acceptance": acceptance,
                     "difficulty": difficulty,
                     "locked": locked,
-                    "topic_tags": topic_tags,
+                    # "topic_tags": topic_tags,
                 })
 
         return result_rows
