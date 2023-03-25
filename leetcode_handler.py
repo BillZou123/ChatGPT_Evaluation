@@ -96,7 +96,7 @@ class LeetcodeHandler():
                 locked = True if cells[1].find("svg") else False
                 acceptance = cells[3].find("span").text
                 difficulty = cells[4].find("span").text
-                # topic_tags = [tag.text.lower() for tag in cells[1].find_all("span")]
+                topic_tags = [tag.text.lower() for tag in cells[1].find_all("span")]
                 
                 # add to results
                 self.logger.debug("Adding problem problem to result...\n\ttitle: %s", title)
@@ -107,7 +107,7 @@ class LeetcodeHandler():
                     "acceptance": acceptance,
                     "difficulty": difficulty,
                     "locked": locked,
-                    # "topic_tags": topic_tags,
+                    "topic_tags": topic_tags,
                 })
 
         return result_rows
@@ -136,12 +136,14 @@ class LeetcodeHandler():
 
         text_editor.click()
 
+        
+
         # have to use switch_to.active_element for this to work
         self.driver.switch_to.active_element.send_keys(Keys.COMMAND, "a")
         self.driver.switch_to.active_element.send_keys(Keys.COMMAND, "c")
 
         problem_header = xerox.paste()
-
+        
         return (problem_header, problem_content)
 
 
