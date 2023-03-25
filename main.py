@@ -13,6 +13,7 @@ def get_leetcode_problems(leetcode_handler):
         # get all the problems posted on the problems page
         print("Scraping problems from page:\n\t%s", url)
         page_results = leetcode_handler.parse_problems(url)
+        print(page_results, "page_results")
         for problem in page_results:
             (problem_header, problem_content) = leetcode_handler.parse_problem_content(problem['problem_url'], 'python3')
             # print(problem_header)
