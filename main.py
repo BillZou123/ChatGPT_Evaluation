@@ -27,7 +27,7 @@ def get_leetcode_problems(leetcode_handler):
         page_results = leetcode_handler.parse_problems(url)
         print(page_results, "page_results")
         for problem in page_results:
-            (problem_header, problem_content) = leetcode_handler.parse_problem_content(problem['problem_url'], 'python3')
+            (problem_header, problem_content) = leetcode_handler.parse_problem_content(problem['problem_url'], 'Java')
 
 
             # print(problem_header)
@@ -43,7 +43,7 @@ def get_leetcode_problems(leetcode_handler):
             openai_response = promt_template(problem_content=problem_content, header=problem_header)
             time.sleep(2)
             print(openai_response,"openai_response")
-            result = leetcode_handler.submit_problem("python3", problem["problem_url"], openai_response)
+            result = leetcode_handler.submit_problem("Java", problem["problem_url"], openai_response)
 
             print(result)
             print("XXXXXXXxXXXXXXXXXXXXXXXXXXXXXXXX")
@@ -83,7 +83,7 @@ def get_leetcode_problems(leetcode_handler):
             worksheet.cell(row=row, column=col, value=cell_data)
 
         # Save the workbook
-        workbook.save('data.xlsx')
+        workbook.save('data_Java.xlsx')
         
 
 

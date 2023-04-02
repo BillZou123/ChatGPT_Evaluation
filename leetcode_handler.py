@@ -210,7 +210,35 @@ class LeetcodeHandler():
             else:
                 memory = None
                 memory_beats = None
-            solution_result = {
+            print(result_text,"?????????")
+            if len(result_text) == 1:
+                solution_result={
+                "succeeded": succeeded,
+                "runtime": None,
+                "runtime_beats": None,
+                "memory": None,
+                "memory_beats": None,
+                "error_type": "compile error",
+                "error_message": "compile error",
+                "total_testcases": None,
+                "testcases_passed": None
+                }
+            elif len(result_text) == 9:
+                memory = result_text[6].replace(" mb", "")
+                memory_beats = result_text[8].replace("%", "")
+                solution_result = {
+                "succeeded": succeeded,
+                "runtime": int(result_text[2].replace(" ms", "")),
+                "runtime_beats": result_text[4].replace("%", ""),
+                "memory": memory,
+                "memory_beats": memory_beats,
+                "error_type": None,
+                "error_message": None,
+                "total_testcases": None,
+                "testcases_passed": None}
+
+            else:
+                solution_result = {
                 "succeeded": succeeded,
                 "runtime": int(result_text[1].replace(" ms", "")),
                 "runtime_beats": result_text[3].replace("%", ""),

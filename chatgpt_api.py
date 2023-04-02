@@ -5,7 +5,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def promt_template(problem_content, header):
-    prompt = f"Using python, provide only code for the following prompt: {problem_content}, begin your answer with {header}"
+    prompt = f"Using Java language, provide only code do not include any explanation for the following prompt: {problem_content}, begin your answer with {header} and do not change it"
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         # model="GPT-3-DaVinci-003",
