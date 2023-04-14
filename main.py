@@ -27,21 +27,20 @@ def get_leetcode_problems(leetcode_handler):
         page_results = leetcode_handler.parse_problems(url)
         print(page_results, "page_results")
         for problem in page_results:
+            time.sleep(1)
             (problem_header, problem_content) = leetcode_handler.parse_problem_content(problem['problem_url'], 'Java')
-
-
-            # print(problem_header)
-            # print(problem_content)
-            # print(type(problem_content))
-            # print(len(problem_content))
-
             
             # if there are topic tags we will add them to the table
             print("Problem URL {}".format(problem["problem_url"]))
                 # get the inserted primary key
                 # topic_tags_list = [[primary_key, topic] for topic in problem["topic_tags"]]
-            openai_response = promt_template(problem_content=problem_content, header=problem_header)
-            time.sleep(2)
+            try:
+                openai_response = promt_template(problem_content=problem_content, header=problem_header)
+
+            except:
+                time.sleep(120)  # wait for 2 minutes before trying again
+                openai_response = promt_template(problem_content=problem_content, header=problem_header)
+
             print(openai_response,"openai_response")
             result = leetcode_handler.submit_problem("Java", problem["problem_url"], openai_response)
 
@@ -70,11 +69,19 @@ def get_leetcode_problems(leetcode_handler):
             question_data = [problem["problem_number"],problem["title"],problem_content,problem["acceptance"],problem["difficulty"], 
                              openai_response, result["succeeded"],result["runtime"],result["runtime_beats"],
                              result["memory"],result["memory_beats"],error_type, errot_message,total_testcases,testcases_passed]
+            
             excel_data.append(question_data)
+
+            if result["succeeded"]:
+                print("111")
+                # 创建一个文件，并将字符串写入文件中
+                with open('Java/'+str(problem["problem_number"])+ '.class', 'w') as file:
+                    file.write(openai_response)
+
             count += 1
-            if count ==30:
+            if count ==100:
                 break
-        if count == 30:
+        if count == 100:
             break
         print("Done scraping problems from page:\n\t%s", url)
 
@@ -83,7 +90,7 @@ def get_leetcode_problems(leetcode_handler):
             worksheet.cell(row=row, column=col, value=cell_data)
 
         # Save the workbook
-        workbook.save('data_Java.xlsx')
+        workbook.save('data_J.xlsx')
         
 
 

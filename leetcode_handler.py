@@ -15,7 +15,7 @@ from time import sleep
 import xerox
 
 
-LANGUAGE = "python3"
+LANGUAGE = "Java"
 
 
 class LeetcodeHandler():
@@ -129,8 +129,15 @@ class LeetcodeHandler():
         problem_content = WebDriverWait(self.driver, timeout = 15).until(lambda d: d.find_element(By.CSS_SELECTOR, "._1l1MA"))
         problem_content = problem_content.text
 
-
+        
         self.set_problem_language(language)
+        wait = WebDriverWait(self.driver, 10)
+        buttons = wait.until(EC.presence_of_all_elements_located((By.XPATH, '//button[@class="rounded px-3 py-1.5 font-medium items-center whitespace-nowrap transition-all focus:outline-none inline-flex hover:bg-fill-3 dark:hover:bg-dark-fill-3 ml-auto !p-1"]')))
+        buttons[2].click()
+        button = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "bg-green-s")))
+
+        # click the button
+        button.click()
 
         text_editor = WebDriverWait(self.driver, timeout = 25).until(lambda d: d.find_element(By.CSS_SELECTOR, ".view-lines.monaco-mouse-cursor-text"))
 
@@ -282,16 +289,16 @@ class LeetcodeHandler():
         self.driver.get("https://leetcode.com/accounts/login/")
 
         # wait for spinner to disappear
-        WebDriverWait(self.driver, timeout = 15).until_not(EC.presence_of_element_located((By.ID, "initial-loading")))
+        WebDriverWait(self.driver, timeout = 40).until_not(EC.presence_of_element_located((By.ID, "initial-loading")))
         
         # get all elements and enter login details
-        email_login = WebDriverWait(self.driver, timeout = 15).until(lambda d: d.find_element(By.ID, "id_login"))
+        email_login = WebDriverWait(self.driver, timeout = 60).until(lambda d: d.find_element(By.ID, "id_login"))
         email_login.send_keys(os.environ.get("LEETCODE_USER"))
-        password_login = WebDriverWait(self.driver, timeout = 15).until(lambda d: d.find_element(By.ID, "id_password"))
+        password_login = WebDriverWait(self.driver, timeout = 60).until(lambda d: d.find_element(By.ID, "id_password"))
         password_login.send_keys(os.environ.get("LEETCODE_PASSWORD"))
-        login_button = WebDriverWait(self.driver, timeout = 15).until(lambda d: d.find_element(By.ID, "signin_btn"))
+        login_button = WebDriverWait(self.driver, timeout = 60).until(lambda d: d.find_element(By.ID, "signin_btn"))
         login_button.click()
 
         # wait for the page to load after clicking login
         # login redirects to homepage with the storyboard so we will wait for that element
-        WebDriverWait(self.driver, timeout = 15).until(lambda d: d.find_element(By.CLASS_NAME, "storyboard"))
+        WebDriverWait(self.driver, timeout = 60).until(lambda d: d.find_element(By.CLASS_NAME, "storyboard"))
